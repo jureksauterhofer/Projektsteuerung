@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DB Test</title>
+</head>
+<body>
+  <h1>Supabase DB Test</h1>
+  <pre id="out">Lade...</pre>
+
+  <script type="module">
+    import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
+    const SUPABASE_URL = "HIER_URL_EINFUEGEN";
+    const SUPABASE_ANON_KEY = "HIER_KEY_EINFUEGEN";
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    async function load() {
+      const out = document.getElementById("out");
+
+      const { data, error } = await supabase
+        .from("tasks")
+        .select("id,title");
+
+      if (error) {
+        out.textContent = "FEHLER:\n" + JSON.stringify(error, null, 2);
+        return;
+      }
+
+      out.textContent = JSON.stringify(data, null, 2);
+    }
+
+    load();
+  </script>
+</body>
+</html>
