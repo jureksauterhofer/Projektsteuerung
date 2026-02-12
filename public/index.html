@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PM Test – Tasks</title>
+  <style>
+    body { font-family: system-ui, Arial; margin: 24px; }
+    table { border-collapse: collapse; width: 100%; max-width: 800px; }
+    th, td { border: 1px solid #ddd; padding: 8px; }
+    th { text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Tasks (aus JSON)</h1>
+
+  <table>
+    <thead>
+      <tr><th>ID</th><th>Titel</th><th>Status</th></tr>
+    </thead>
+    <tbody id="rows"></tbody>
+  </table>
+
+  <script>
+    async function load() {
+      const res = await fetch("./tasks.json");
+      const data = await res.json();
+
+      const tbody = document.getElementById("rows");
+      tbody.innerHTML = "";
+
+      for (const t of data) {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `<td>${t.id}</td><td>${t.title}</td><td>${t.status}</td>`;
+        tbody.appendChild(tr);
+      }
+    }
+    load();
+  </script>
+</body>
+</html>
